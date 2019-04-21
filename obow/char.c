@@ -113,7 +113,7 @@ void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[]) {
 	unsigned int uiReturnedValue;
 	char cString[]="2137223";
 	
-	//UIntToHexStr(65000, cString);  
+	//UIntToHexStr(65000, cString);
 	TestGoodString = eHexStringToUInt("0x2115", &uiReturnedValue);
 	UIntToHexStr(uiReturnedValue, cString);
 	TestTooLongString = eHexStringToUInt("0x2115FFFF", &uiReturnedValue);

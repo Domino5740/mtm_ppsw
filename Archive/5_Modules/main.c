@@ -1,7 +1,6 @@
-#include <LPC21xx.H>
 #include "led.h"
 #include "keyboard.h"
-/*8108108, na lapku 37499998*/
+
 void Delay(int iLatency) {
 	
 	int iLoopCounter;
@@ -11,8 +10,9 @@ void Delay(int iLatency) {
 
 int main() {
 	LedInit();
-	Delay(500)
+	Delay(500);
 	while(1) {
+		Delay(100);
 		switch(eKeyboardRead()) {
 			case BUTTON_1:
 				LedStepRight();

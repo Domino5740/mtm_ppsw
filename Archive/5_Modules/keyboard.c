@@ -11,7 +11,7 @@ enum eKeyboardState eKeyboardRead() {
 	if((IO0PIN & S0_bm) == 0) {
 		return BUTTON_0;
 	}
-	else if ((IO0PIN & S1_bm)== 0) {
+	else if ((IO0PIN & S1_bm) == 0) {
 		return BUTTON_1;
 	}
 	else if ((IO0PIN & S2_bm) == 0) {
