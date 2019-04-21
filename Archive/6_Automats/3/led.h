@@ -10,6 +10,5 @@ enum eDirection {
 
 enum LedState {
 	LED_STEP_LEFT,
-	LED_NO_STEP,
 	LED_STEP_RIGHT
 };
