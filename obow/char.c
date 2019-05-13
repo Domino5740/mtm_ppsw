@@ -2,20 +2,80 @@
 #define MAX_TOKEN_NR 3
 #define MAX_KEYWORD_STRING_LTH 10
 
-char asKeywordList[10]; // uzywana przez bStringToCommand
-//char asToken[10]; // wypelniana przez DecodeMsg na podstawie // cUartRxBuffer i asCommandList
-unsigned char ucTokenNr; // liczba tokenów w zdekodowanym komunikacie
-typedef enum {KEYWORD, NUMBER, STRING} TokenType;
-typedef struct Token
-{
-enum TokenType eType; // KEYWORD, NUMBER, STRING
-union TokenValue uValue; // enum, unsigned int, char*
+unsigned char ucTokenNr = 0;
+typedef enum TokenType {KEYWORD, NUMBER, STRING} TokenType;
+typedef enum KeywordCode {LD, ST, RST} KeywordCode;
+
+typedef struct Keyword {
+	enum KeywordCode eCode;
+	char cString[MAX_KEYWORD_STRING_LTH + 1];
+} Keyword;
+
+struct Keyword asKeywordList[MAX_TOKEN_NR] = {
+	{RST, "reset"},
+	{LD, "load"},
+	{ST, "store"}
 };
+
+typedef union TokenValue {
+	enum KeywordCode eKeyword;
+	unsigned int uiNumber;
+	char *pcString;
+} TokenValue;
+
+typedef struct Token {
+TokenType eType;
+TokenValue uValue;
+} Token;
+
 struct Token asToken[MAX_TOKEN_NR];
 
 unsigned char ucFindTokensInString(char *pcString) {
-	for(unsigned char ucCharCounter = 0; *pcString[ucCharCounter] = '\0'; ucCharCounter++) {
+	
+	char cCurrentChar;
+	unsigned char ucCharCounter;
+	unsigned char ucTokenPointer = 0;
+	enum TokenState {TOKEN, DELIMITER};
+	enum TokenState eTokenState = TOKEN;
+
+	for(ucTokenPointer = 0; ; ucTokenPointer++) {
 		
+		cCurrentChar = pcString[ucTokenPointer];
+		
+		switch(eTokenState) {
+				case TOKEN:
+					if(cCurrentChar==' ') {}
+					else if (cCurrentChar=='\0') {
+						return ucTokenNr;
+					}
+					else if(ucTokenNr == MAX_TOKEN_NR) {
+						return ucTokenNr;
+					}
+					else if(ucCharCounter == MAX_KEYWORD_STRING_LTH) {
+						return ucTokenNr;
+					}
+					else {
+						asToken[ucTokenNr].uValue.pcString = pcString + ucTokenPointer;
+						ucCharCounter++;
+						eTokenState = DELIMITER;
+					}
+					break;
+				case DELIMITER:
+					if(cCurrentChar=='\0') {
+						ucTokenNr++;
+						return ucTokenNr;
+					}
+					else if(cCurrentChar==' ') {
+						ucCharCounter = 0;
+						ucTokenNr++;
+						eTokenState = TOKEN;
+					}
+					else {
+						//ucCharCounter--;
+						eTokenState = TOKEN;
+					}
+					break;	
+		}
 	}
 }
 
@@ -125,6 +185,8 @@ void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[]) {
 
 
  int main() {
+	 ucFindTokensInString("chuj");
+	 
 	/* test konwersji
 	volatile enum Result TestGoodString;
 	volatile enum Result TestTooLongString;
@@ -142,5 +204,4 @@ void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[]) {
 	TestNotHexString = eHexStringToUInt("0xGG", &uiReturnedValue);
 	TestBadString = eHexStringToUInt("2115", &uiReturnedValue);
 	*/
-	 
 }
