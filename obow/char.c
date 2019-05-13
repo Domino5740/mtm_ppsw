@@ -1,4 +1,23 @@
 #define HEX_bm 0x000F
+#define MAX_TOKEN_NR 3
+#define MAX_KEYWORD_STRING_LTH 10
+
+char asKeywordList[10]; // uzywana przez bStringToCommand
+//char asToken[10]; // wypelniana przez DecodeMsg na podstawie // cUartRxBuffer i asCommandList
+unsigned char ucTokenNr; // liczba tokenów w zdekodowanym komunikacie
+typedef enum {KEYWORD, NUMBER, STRING} TokenType;
+typedef struct Token
+{
+enum TokenType eType; // KEYWORD, NUMBER, STRING
+union TokenValue uValue; // enum, unsigned int, char*
+};
+struct Token asToken[MAX_TOKEN_NR];
+
+unsigned char ucFindTokensInString(char *pcString) {
+	for(unsigned char ucCharCounter = 0; *pcString[ucCharCounter] = '\0'; ucCharCounter++) {
+		
+	}
+}
 
 void CopyString(char pcSource[], char pcDestination[]) {
 	
@@ -104,7 +123,9 @@ void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[]) {
 	UIntToHexStr(uiValue,pcDestinationStr+ucEndPointer);
 }
 
+
  int main() {
+	/* test konwersji
 	volatile enum Result TestGoodString;
 	volatile enum Result TestTooLongString;
 	volatile enum Result TestNullString;
@@ -120,4 +141,6 @@ void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[]) {
 	TestNullString = eHexStringToUInt("0x", &uiReturnedValue);
 	TestNotHexString = eHexStringToUInt("0xGG", &uiReturnedValue);
 	TestBadString = eHexStringToUInt("2115", &uiReturnedValue);
+	*/
+	 
 }
