@@ -10,9 +10,12 @@ void Delay(int iLatency) {
 }
 
 int main() {
+	
 	enum LedState eLedState = LED_STEP_LEFT;
-	unsigned int uiLedPoint;
+	unsigned int uiLedPoint = 0;
+	
 	LedInit();
+	
 	while(1) {
 		Delay(250);
 		switch(eLedState) {

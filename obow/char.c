@@ -1,89 +1,38 @@
 #define HEX_bm 0x000F
 #define MAX_TOKEN_NR 3
+#define MAX_KEYWORD_NR 3
 #define MAX_KEYWORD_STRING_LTH 10
+
+enum CompResult {DIFFERENT, EQUAL};
+enum Result {OK, ERROR};
 
 unsigned char ucTokenNr = 0;
 typedef enum TokenType {KEYWORD, NUMBER, STRING} TokenType;
 typedef enum KeywordCode {LD, ST, RST} KeywordCode;
-enum Result {OK, ERROR};
+
 typedef struct Keyword {
 	enum KeywordCode eCode;
 	char cString[MAX_KEYWORD_STRING_LTH + 1];
 } Keyword;
-struct Keyword asKeywordList[MAX_TOKEN_NR] = {
-	{RST, "reset"},
-	{LD, "load"},
-	{ST, "store"}
-};
+
 typedef union TokenValue {
 	enum KeywordCode eKeyword;
 	unsigned int uiNumber;
 	char * pcString;
 } TokenValue;
+
 typedef struct Token {
-TokenType eType;
-TokenValue uValue;
+enum TokenType eType;
+union TokenValue uValue;
 } Token;
+
 struct Token asToken[MAX_TOKEN_NR];
 
-unsigned char ucFindTokensInString(char *pcString) {
-	
-	char cCurrentChar;
-	unsigned char ucCharCounter = 0;
-	unsigned char ucTokenCounter = 0;
-	enum TokenState {TOKEN, DELIMITER};
-	enum TokenState eTokenState = TOKEN;
-
-	for(ucTokenCounter = 0; ; ucTokenCounter++) {
-		
-		cCurrentChar = pcString[ucTokenCounter];
-		
-		switch(eTokenState) {
-				case TOKEN:
-					if(cCurrentChar==' ') {}
-					else if (cCurrentChar=='\0') {
-						return ucTokenNr;
-					}
-					else if(ucTokenNr == MAX_TOKEN_NR) {
-						return ucTokenNr;
-					}
-					else {
-						asToken[ucTokenNr].uValue.pcString = pcString + ucTokenCounter;
-						ucCharCounter++;
-						eTokenState = DELIMITER;
-					}
-					break;	
-				case DELIMITER:
-					if(cCurrentChar=='\0') {
-						ucTokenNr++;
-						return ucTokenNr;
-					}
-					else if(ucCharCounter == MAX_KEYWORD_STRING_LTH) {
-						return ucTokenNr;
-					}
-					else if(cCurrentChar==' ') {
-						ucCharCounter = 0;
-						ucTokenNr++;
-						eTokenState = TOKEN;
-					}
-					else {
-						--ucTokenCounter;
-						eTokenState = TOKEN;
-					}
-					break;	
-		}
-	}
-}
-
-enum Result eStringToKeyword (char pcStr[], enum KeywordCode *peKeywordCode) {
-	for(unsigned char ucTokenCounter=0; ucTokenCounter<MAX_TOKEN_NR; ucTokenCounter++) {
-		if(eCompareString(pcStr, asKeywordList[ucTokenCounter].cString) = EQUAL) {
-			 *peKeywordCode = asToken[ucTokenCounter].eType;
-			return OK;
-		}
-	}
-	return ERROR;
-}
+struct Keyword asKeywordList[MAX_TOKEN_NR] = {
+	{RST, "reset"},
+	{LD, "load"},
+	{ST, "store"}
+};
 
 void CopyString(char pcSource[], char pcDestination[]) {
 	
@@ -95,10 +44,13 @@ void CopyString(char pcSource[], char pcDestination[]) {
 	pcDestination[ucCharCounter]='\0';
 }
 
-enum CompResult {
-	DIFFERENT,
-	EQUAL
-};
+void AppendString(char pcSourceStr[], char pcDestinationStr[]) {
+	
+	unsigned char ucEndPointer;
+	
+  for(ucEndPointer = 0; pcDestinationStr[ucEndPointer] != '\0' ; ucEndPointer++) {}
+  CopyString(pcSourceStr,pcDestinationStr+ucEndPointer);
+}
 
 enum CompResult eCompareString(char pcStr1[], char pcStr2[]) {
 	
@@ -110,14 +62,6 @@ enum CompResult eCompareString(char pcStr1[], char pcStr2[]) {
 		}
 	}
 	return EQUAL;
-}
-
-void AppendString(char pcSourceStr[], char pcDestinationStr[]) {
-	
-	unsigned char ucEndPointer;
-	
-  for(ucEndPointer = 0; pcDestinationStr[ucEndPointer] != '\0' ; ucEndPointer++) {}
-  CopyString(pcSourceStr,pcDestinationStr+ucEndPointer);
 }
 
 void ReplaceCharactersInString(char pcString[], char cOldChar, char cNewChar) {
@@ -154,7 +98,6 @@ void UIntToHexStr(unsigned int uiValue, char pcStr[]) {
 enum Result eHexStringToUInt(char pcStr[],unsigned int *puiValue) {
 	
 	unsigned char ucCharCounter;
-	*puiValue = 0;
 	
 	if((pcStr[0] != '0') | (pcStr[1] != 'x') | (pcStr[2] == '\0')) {
 		return ERROR;
@@ -184,10 +127,87 @@ void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[]) {
 	UIntToHexStr(uiValue,pcDestinationStr+ucEndPointer);
 }
 
+unsigned char ucFindTokensInString(char *pcString) {
+	
+	char cCurrentChar;
+	unsigned char ucTokenCounter = 0;
+	enum TokenState {TOKEN, DELIMITER};
+	enum TokenState eTokenState = DELIMITER;
+
+	for(ucTokenCounter = 0; ; ucTokenCounter++) {
+		
+		cCurrentChar = pcString[ucTokenCounter];
+		
+		switch(eTokenState) {
+				case TOKEN:
+					if (cCurrentChar==' ') {
+						eTokenState = DELIMITER;
+					}
+					else if (cCurrentChar=='\0') {
+						return ucTokenNr;
+					}
+					else if(ucTokenNr == MAX_TOKEN_NR) {
+						return ucTokenNr;
+					}
+					break;	
+				case DELIMITER:
+					if(cCurrentChar=='\0') {
+						return ucTokenNr;
+					}
+					else if(cCurrentChar!=' ') {
+						eTokenState = TOKEN;
+						asToken[ucTokenNr].uValue.pcString = pcString + ucTokenCounter;
+						ucTokenNr++;
+					}
+					break;	
+		}
+	}
+}
+
+enum Result eStringToKeyword (char pcStr[], enum KeywordCode *peKeywordCode) {
+	
+	unsigned char ucKeywordCounter;
+	
+	for(ucKeywordCounter = 0; ucKeywordCounter<MAX_KEYWORD_NR; ucKeywordCounter++) {
+		if(eCompareString(pcStr, asKeywordList[ucKeywordCounter].cString) == EQUAL) {
+			*peKeywordCode = asKeywordList[ucKeywordCounter].eCode;
+			return OK;
+		}
+	}
+	return ERROR;
+}
+
+void DecodeTokens(void) {
+	
+	unsigned char ucTokenCounter;
+	
+	for(ucTokenCounter = 0; ucTokenCounter < ucTokenNr; ucTokenCounter++) {
+		if(eStringToKeyword(asToken[ucTokenCounter].uValue.pcString, &asToken[ucTokenCounter].uValue.eKeyword) == OK) {
+			asToken[ucTokenCounter].eType = KEYWORD;
+		}
+		else if(eHexStringToUInt(asToken[ucTokenCounter].uValue.pcString, &asToken[ucTokenCounter].uValue.uiNumber) == OK) {
+			asToken[ucTokenCounter].eType = NUMBER;
+		}
+		else {
+			asToken[ucTokenCounter].eType = STRING;
+			asToken[ucTokenCounter].uValue.pcString = asToken[ucTokenCounter].uValue.pcString;
+		}
+	}
+}
+
+void DecodeMsg(char *pcString) {
+	ucTokenNr = ucFindTokensInString(pcString);
+	ReplaceCharactersInString(pcString, ' ', '\0');
+	DecodeTokens();
+}
+
+	 char cString[] = "0xA4B5 load knapor";
 
  int main() {
-	 ucFindTokensInString("GLODNY JESTEM");
+	//ucFindTokensInString("  ");
+	 DecodeMsg(cString);
 	 
+	
 	/* test konwersji
 	volatile enum Result TestGoodString;
 	volatile enum Result TestTooLongString;

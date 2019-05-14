@@ -10,19 +10,19 @@ void Delay(int iLatency) {
 }
 
 int main() {
-	
-	enum LedState eLedState = LED_LEFT;
+
+	enum LedState eLedState = LED_RIGHT;
 	
 	LedInit();
 	
 	while(1) {
 		switch(eLedState) {
-			case LED_LEFT:
-				eLedState = LED_RIGHT;
-				LedStepRight();
-				break;
 			case LED_RIGHT:
 				eLedState = LED_LEFT;
+				LedStepRight();
+				break;
+			case LED_LEFT:
+				eLedState = LED_RIGHT;
 				LedStepLeft();
 				break;
 			default:
