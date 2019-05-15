@@ -11,7 +11,7 @@ void Delay(int iLatency) {
 
 int main() {
 
-	enum LedState eLedState = LED_RIGHT;
+	enum LedState eLedState = LED_LEFT;
 	
 	LedInit();
 	

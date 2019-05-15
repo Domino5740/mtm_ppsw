@@ -1,6 +1,6 @@
 #define HEX_bm 0x000F
-#define MAX_TOKEN_NR 3
-#define MAX_KEYWORD_NR 3
+#define MAX_TOKEN_NR 4
+#define MAX_KEYWORD_NR 4
 #define MAX_KEYWORD_STRING_LTH 10
 
 enum CompResult {DIFFERENT, EQUAL};
@@ -8,7 +8,7 @@ enum Result {OK, ERROR};
 
 unsigned char ucTokenNr = 0;
 typedef enum TokenType {KEYWORD, NUMBER, STRING} TokenType;
-typedef enum KeywordCode {LD, ST, RST} KeywordCode;
+typedef enum KeywordCode {LD, ST, RST, DEL} KeywordCode;
 
 typedef struct Keyword {
 	enum KeywordCode eCode;
@@ -31,7 +31,8 @@ struct Token asToken[MAX_TOKEN_NR];
 struct Keyword asKeywordList[MAX_TOKEN_NR] = {
 	{RST, "reset"},
 	{LD, "load"},
-	{ST, "store"}
+	{ST, "store"},
+	{DEL, "delete"}
 };
 
 void CopyString(char pcSource[], char pcDestination[]) {
@@ -201,13 +202,13 @@ void DecodeMsg(char *pcString) {
 	DecodeTokens();
 }
 
-	 char cString[] = "0xA4B5 load knapor";
+	char cString[] = " 0xA4B5    load word";
+	char cNullString[] = " ";
 
  int main() {
-	//ucFindTokensInString("  ");
 	 DecodeMsg(cString);
+	 DecodeMsg(cNullString);
 	 
-	
 	/* test konwersji
 	volatile enum Result TestGoodString;
 	volatile enum Result TestTooLongString;

@@ -12,6 +12,7 @@ void Delay(int iLatency) {
 int main() {
 	
 	enum LedState eLedState = LED_NO_STEP;
+	unsigned char ucTenCounter = 0;
 	
 	LedInit();
 	
@@ -33,6 +34,9 @@ int main() {
 				else if(eKeyboardRead() == BUTTON_2) {
 					eLedState = LED_STEP_RIGHT;
 				}
+				else if(eKeyboardRead() == BUTTON_3) {
+					eLedState = LED_LEFT_RIGHT;
+				}
 				break;
 			case LED_STEP_RIGHT:
 				if(eKeyboardRead() == BUTTON_1) {
@@ -42,6 +46,17 @@ int main() {
 					LedStepRight();
 				}
 				break;
+			case LED_LEFT_RIGHT:
+				if(ucTenCounter%21 == 20) {
+					eLedState = LED_NO_STEP;
+				}
+				else if(ucTenCounter%2 == 0) {
+					LedStepLeft();
+				}
+				else if(ucTenCounter%2 == 1) {
+					LedStepRight();
+				}
+				ucTenCounter++;
 		}
 	}
 }
