@@ -26,5 +26,5 @@ void InitTimer0Match0(unsigned int iDelayTime) {
 
 void WaitOnTimer0Match0(void) {
 	while((T0IR & INTERRUPT_MR0) == 0) { }
-	T0IR |= INTERRUPT_MR0;
+	T0IR = INTERRUPT_MR0;
 }
