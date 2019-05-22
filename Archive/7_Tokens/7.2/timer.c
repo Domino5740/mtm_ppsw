@@ -6,8 +6,7 @@
 #define PCLK_CLOCK 15
 
 void InitTimer0(void) {
-	T0TCR = CR_ENABLE_bm | CR_RESET_bm;
-	T0TCR = T0TCR & (~CR_RESET_bm);
+	T0TCR = CR_ENABLE_bm;
 }
 
 void WaitOnTimer0(unsigned int uiTime) {

@@ -11,42 +11,41 @@
 #define mMR0_INTERRUPT    0x00000001
 
 // VIC (Vector Interrupt Controller) VICIntEnable
-#define VIC_TIMER1_CHANNEL_NR 5
+#define VIC_TIMER0_CHANNEL_NR 4
 
 // VICVectCntlx Vector Control Registers
-#define mIRQ_SLOT_ENABLE 0x00000020
+#define mIRQ_SLOT_ENABLE 0x00000010
 
 /**********************************************/
 //(Interrupt Service Routine) of Timer 0 interrupt
-__irq void Timer1IRQHandler(){
-	
-	T1IR=mMR0_INTERRUPT; 	// skasowanie flagi przerwania
+__irq void Timer0IRQHandler(){
+
+	T0IR=mMR0_INTERRUPT; 	// skasowanie flagi przerwania 
 	LedStepRight();		// cos do roboty
 	VICVectAddr=0x00; 	// potwierdzenie wykonania procedury obslugi przerwania
 }
 /**********************************************/
-void Timer1Interrupts_Init(unsigned int uiPeriod){ // microseconds
+void Timer0Interrupts_Init(unsigned int uiPeriod){ // microseconds
 
         // interrupts
-
-	VICIntEnable |= (1 << VIC_TIMER1_CHANNEL_NR);            // Enable Timer 0 interrupt channel 
-	VICVectCntl1  = mIRQ_SLOT_ENABLE | VIC_TIMER1_CHANNEL_NR;  // Enable Slot 0 and assign it to Timer 0 interrupt channel
-	VICVectAddr1  =(unsigned long)Timer1IRQHandler; 	   // Set to Slot 0 Address of Interrupt Service Routine 
+	VICIntEnable |= (1 << VIC_TIMER0_CHANNEL_NR);            // Enable Timer 0 interrupt channel 
+	VICVectCntl1  = mIRQ_SLOT_ENABLE | VIC_TIMER0_CHANNEL_NR;  // Enable Slot 0 and assign it to Timer 0 interrupt channel
+	VICVectAddr1  =(unsigned long)Timer0IRQHandler; 	   // Set to Slot 0 Address of Interrupt Service Routine 
 
         // match module
 
-	T1MR0 = 15 * uiPeriod;                 	      // value 
-	T1MCR |= (mINTERRUPT_ON_MR0 | mRESET_ON_MR0); // action 
+	T0MR0 = 15 * uiPeriod;                 	      // value 
+	T0MCR |= (mINTERRUPT_ON_MR0 | mRESET_ON_MR0); // action 
 
         // timer
 
-	T1TCR |=  mCOUNTER_ENABLE; // start 
+	T0TCR |=  mCOUNTER_ENABLE; // start 
 
 }
 /**********************************************/
 int main (){
 	unsigned int iMainLoopCtr;
-	Timer1Interrupts_Init(1000);
+	Timer0Interrupts_Init(250000);
 
 	while(1){
 	 	iMainLoopCtr++;
