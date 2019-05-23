@@ -20,7 +20,7 @@ void WaitOnTimer0(unsigned int uiTime) {
 
 void InitTimer0Match0(unsigned int iDelayTime) {
 	T0MR0 = (iDelayTime * PCLK_CLOCK);
-	T0MCR = INTERRUPT_MR0 | RESET_ON_MR0;
+	T0MCR = T0MCR | (INTERRUPT_MR0 | RESET_ON_MR0);
 	InitTimer0();
 }
 
