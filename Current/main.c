@@ -14,7 +14,7 @@
 #define VIC_TIMER0_CHANNEL_NR 4
 
 // VICVectCntlx Vector Control Registers
-#define mIRQ_SLOT_ENABLE (1<<4)
+#define mIRQ_SLOT_ENABLE (1<<3)
 
 /**********************************************/
 //(Interrupt Service Routine) of Timer 0 interrupt
@@ -22,7 +22,7 @@ __irq void Timer0IRQHandler(){
 
 	T0IR = mMR0_INTERRUPT; 	// skasowanie flagi przerwania 
 	LedStepRight();		// cos do roboty
-	VICVectAddr=0x00; 	// potwierdzenie wykonania procedury obslugi przerwania
+	VICVectAddr0=0x00; 	// potwierdzenie wykonania procedury obslugi przerwania
 }
 /**********************************************/
 void Timer0Interrupts_Init(unsigned int uiPeriod){ // microseconds
