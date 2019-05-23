@@ -7,7 +7,7 @@ int main() {
 	LedInit();
 	InitTimer0();
 	while(1) {
-		WaitOnTimer0(250000);
+		WaitOnTimer0(100000);
 		LedStepLeft();
 	}
 }
