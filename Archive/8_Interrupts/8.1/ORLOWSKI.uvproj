@@ -432,11 +432,6 @@
               <FileType>5</FileType>
               <FilePath>.\keyboard.h</FilePath>
             </File>
-            <File>
-              <FileName>timer_interrupts.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\timer_interrupts.c</FilePath>
-            </File>
           </Files>
         </Group>
       </Groups>
