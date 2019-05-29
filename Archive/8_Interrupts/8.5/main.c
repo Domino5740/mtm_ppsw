@@ -3,8 +3,8 @@
 #include "keyboard.h"
 
 void Automaty() {
-	
 	enum LedState eLedState = LED_NO_STEP;
+	KeyboardInit();
 	LedInit();
 	switch(eLedState) {
 		case LED_STEP_LEFT:
@@ -38,7 +38,7 @@ void Automaty() {
 int main (){
 	
 	int iMainCounter;
-	Timer0Interrupts_Init(1000, &Automaty);
+	Timer0Interrupts_Init(250000, &Automaty);
 	
 	while(1){
 		iMainCounter++;

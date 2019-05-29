@@ -1,16 +1,16 @@
 #include <LPC21xx.H>
 #include "timer_interrupts.h"
 
-#define mCOUNTER_ENABLE 0x00000001
-#define mCOUNTER_RESET  0x00000002
+#define mCOUNTER_ENABLE 1
+#define mCOUNTER_RESET  (1<<1)
 
-#define mINTERRUPT_ON_MR0 0x00000001
-#define mRESET_ON_MR0     0x00000002
-#define mMR0_INTERRUPT    0x00000001
+#define mINTERRUPT_ON_MR0 1
+#define mRESET_ON_MR0     (1<<1)
+#define mMR0_INTERRUPT    1
 
 #define VIC_TIMER0_CHANNEL_NR 4
 
-#define mIRQ_SLOT_ENABLE 0x00000020
+#define mIRQ_SLOT_ENABLE (1<<5)
 
 void (*ptrTimer0InterruptFunction)();
 

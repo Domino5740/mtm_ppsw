@@ -6,3 +6,4 @@ enum eKeyboardState {
 	BUTTON_3
 };
 enum eKeyboardState eKeyboardRead(void);
+void KeyboardInit(void);

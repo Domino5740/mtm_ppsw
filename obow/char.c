@@ -35,6 +35,18 @@ struct Keyword asKeywordList[MAX_TOKEN_NR] = {
 	{DEL, "delete"}
 };
 
+void TestOf_CopyString(void) {
+
+	char cSource = "Testowy string";
+	char cDestination = "asafsfafsfsfsffssfsa";
+
+	printf("CopyString\n\n ");
+	printf ("Test 1 - kopiowanie stringa");
+	CopyString(cSource, cDestination);
+	// sprawdzenie czy kopiowanie stringów działa właściwie
+	if (eCompareString(cSource, cDestination)==EQUAL) printf("OK\n") else printf("Error\n");
+}
+
 void CopyString(char pcSource[], char pcDestination[]) {
 	
 	unsigned char ucCharCounter;
@@ -45,12 +57,40 @@ void CopyString(char pcSource[], char pcDestination[]) {
 	pcDestination[ucCharCounter]='\0';
 }
 
+void TestOf_AppendString(void) {
+
+	char cSource = "Testowy string";
+	char cDestination = "tosty";
+	char cTest = "tosty Testowy string";
+
+	printf("AppendString\n\n ");
+	printf ("Test 1 - dodanie stringa na koniec innego stringa");
+	AppendString(cSource, cDestination);
+	// sprawdzenie czy dodawanaie na koniec stringa działa właściwie
+	if (eCompareString(cSource, cDestination)==EQUAL) printf("OK\n") else printf("Error\n");
+}
+
 void AppendString(char pcSourceStr[], char pcDestinationStr[]) {
 	
 	unsigned char ucEndPointer;
 	
   for(ucEndPointer = 0; pcDestinationStr[ucEndPointer] != '\0' ; ucEndPointer++) {}
   CopyString(pcSourceStr,pcDestinationStr+ucEndPointer);
+}
+
+void TestOf_eCompareString(void) {
+
+	char cEqualString1 = "Testowy string";
+	char cEqualString2 = "Testowy string";
+	char cNotEqualString = "Test";
+
+	printf("eCompareString\n\n ");
+	printf ("Test 1 - taki sam string");
+	// sprawdzenie czy porównanie tych samych stringów da wynik EQUAL
+	if (eCompareString(cEqualString1, cEqualString2) == EQUAL) printf("OK\n") else printf("Error\n");
+	printf ("Test 2 - rózne stringi");
+	//sprawdzenie czy dwa różne stringi będą różne
+	if(eCompareString(cEqualString1, cNotEqualString) == DIFFERENT) printf("OK\n") else printf("Error\n");
 }
 
 enum CompResult eCompareString(char pcStr1[], char pcStr2[]) {
@@ -63,6 +103,20 @@ enum CompResult eCompareString(char pcStr1[], char pcStr2[]) {
 		}
 	}
 	return EQUAL;
+}
+
+void TestOf_ReplaceCharactersInString(void) {
+
+	char cString = "Testowy string test";
+	char cOldChar = "e";
+	char cNewChar = "o";
+	char cNewString = "Tostowy string tost";
+
+	printf("ReplaceCharactersInString\n\n ");
+	printf ("Test 1 - zamiana znaków");
+	// sprawdzenie czy znaki są poprawnie zamieniane
+	ReplaceCharactersInString(cString, cOldChar, cNewChar);
+	if (eCompareString(cString, cNewString) == EQUAL) printf("OK\n") else printf("Error\n");
 }
 
 void ReplaceCharactersInString(char pcString[], char cOldChar, char cNewChar) {
@@ -202,12 +256,13 @@ void DecodeMsg(char *pcString) {
 	DecodeTokens();
 }
 
-	char cString[] = " 0xA4B5    load word";
-	char cNullString[] = " ";
+	//char cString[] = " 0xA4B5    load word";
+	//char cNullString[] = " ";
 
  int main() {
-	 DecodeMsg(cString);
-	 DecodeMsg(cNullString);
+	 TestOf_CopyString();
+//	 DecodeMsg(cString);
+//	 DecodeMsg(cNullString);
 	 
 	/* test konwersji
 	volatile enum Result TestGoodString;
