@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\ORLOWSKI.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\ORLOWSKI.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Wed May 29 22:49:36 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Thu May 30 11:58:49 2019
 <BR><P>
 <H3>Maximum Stack Usage =         24 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -182,7 +182,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[21]"></a>eKeyboardRead</STRONG> (ARM, 104 bytes, Stack size 0 bytes, keyboard.o(.text))
+<P><STRONG><a name="[20]"></a>eKeyboardRead</STRONG> (ARM, 104 bytes, Stack size 0 bytes, keyboard.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Automaty
 </UL>
 
@@ -190,8 +190,8 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Automaty
 </UL>
 
-<P><STRONG><a name="[20]"></a>LedInit</STRONG> (ARM, 32 bytes, Stack size 0 bytes, led.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Automaty
+<P><STRONG><a name="[22]"></a>LedInit</STRONG> (ARM, 32 bytes, Stack size 0 bytes, led.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[1b]"></a>LedOn</STRONG> (ARM, 136 bytes, Stack size 0 bytes, led.o(.text))
@@ -223,19 +223,19 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Automaty
 </UL>
 
-<P><STRONG><a name="[1e]"></a>Automaty</STRONG> (ARM, 164 bytes, Stack size 8 bytes, main.o(.text))
+<P><STRONG><a name="[1e]"></a>Automaty</STRONG> (ARM, 196 bytes, Stack size 8 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = Automaty &rArr; LedStepLeft &rArr; LedStep
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LedStepLeft
 <LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LedStepRight
-<LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LedInit
 <LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;KeyboardInit
-<LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eKeyboardRead
+<LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eKeyboardRead
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(.text)
 </UL>
-<P><STRONG><a name="[a]"></a>main</STRONG> (ARM, 24 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer0Interrupts_Init
+<P><STRONG><a name="[a]"></a>main</STRONG> (ARM, 28 bytes, Stack size 0 bytes, main.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer0Interrupts_Init
+<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LedInit
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rtentry2.o(.ARM.Collect$$rtentry$$0000000D)
 </UL>
@@ -244,7 +244,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> timer_interrupts.o(.text)
 </UL>
-<P><STRONG><a name="[22]"></a>Timer0Interrupts_Init</STRONG> (ARM, 92 bytes, Stack size 0 bytes, timer_interrupts.o(.text))
+<P><STRONG><a name="[21]"></a>Timer0Interrupts_Init</STRONG> (ARM, 92 bytes, Stack size 0 bytes, timer_interrupts.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
