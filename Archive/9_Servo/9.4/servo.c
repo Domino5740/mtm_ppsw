@@ -24,7 +24,7 @@ void ServoAutomat() {
 			}
 		break;
 		case IDLE:
-			if(sServo.uiCurrentPosition != sServo.uiDesiredPosition) {
+			if (sServo.uiCurrentPosition != sServo.uiDesiredPosition) {
 				sServo.eState = IN_PROGRESS;
 			}
 			else {}
@@ -45,6 +45,7 @@ void ServoAutomat() {
 void DetectorInit() {
 	IO0DIR = IO0DIR & (~DETECTOR_bm);
 }
+
 enum DetectorState eReadDetector() {
 	if ((IO0PIN & DETECTOR_bm) == 0) {
 		return ACTIVE;
@@ -58,10 +59,16 @@ void ServoInit(unsigned int uiServoFrequency) {
 	LedInit();
 	sServo.eState = CALLIB;
 	Timer0Interrupts_Init((1000000/uiServoFrequency), &ServoAutomat);
+	while(sServo.eState != IDLE) {}
 }
+
 void ServoCallib() {
 	sServo.eState = CALLIB;
+	while(sServo.eState != IDLE) {}
 }
+
 void ServoGoTo(unsigned int uiPosition) {
 	sServo.uiDesiredPosition = uiPosition;
+	sServo.eState = IN_PROGRESS;
+	while(sServo.eState != IDLE) {}
 }

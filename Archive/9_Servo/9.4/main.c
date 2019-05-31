@@ -3,8 +3,11 @@
 
 int main (){
 	
-	ServoInit(4);
+	ServoInit(50);
 	KeyboardInit();
+	ServoGoTo(24);
+	ServoCallib();
+	ServoGoTo(12);
 	
 	while(1){
 		switch(eKeyboardRead()) {
