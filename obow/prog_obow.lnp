@@ -1,0 +1,7 @@
+--cpu ARM7TDMI
+".\startup.o"
+".\char.o"
+--strict --scatter ".\prog_obow.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\prog_obow.map" -o .\prog_obow.axf

@@ -132,10 +132,11 @@ void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[]) {
 unsigned char ucFindTokensInString(char *pcString) {
 
 	char cCurrentChar;
-	ucTokenNr = 0;
 	unsigned char ucTokenCounter = 0;
 	enum TokenState {TOKEN, DELIMITER};
 	enum TokenState eTokenState = DELIMITER;
+	ucTokenNr = 0;
+
 
 	for(ucTokenCounter = 0; ; ucTokenCounter++) {
 
@@ -443,14 +444,14 @@ void TestOf_eStringToKeyword(void) {
 
 void TestOf_DecodeTokens() {
 
-	unsigned char ucTokenNumber;
+	//unsigned char ucTokenNumber;
 	char pcTokens[]="0xA318 iledalbym store";
 
 	printf("DecodeTokens\n\n ");
 	printf("Test 18 - ");
 	//sprawdzenie czy komunikat jest odkodowany poprawnie (liczba i jej wartosc, string wska�nik na niego,
 	//slowo kluczowe i jego kod)
-	ucTokenNumber = ucFindTokensInString(pcTokens);
+	ucFindTokensInString(pcTokens);
 	ReplaceCharactersInString(pcTokens,' ', NULL);
 	DecodeTokens();
 	if ((asToken[0].eType == NUMBER) & (asToken[0].uValue.uiNumber==0xA318) &
@@ -486,7 +487,7 @@ void TestOf_DecodeMsg() {
 	printf("TESTY FUNKCJI - LANCUCHY ZNAKOWE - OPERACJE PROSTE\n\n\n");
 
 	TestOf_CopyString();
-    TestOf_eCompareString();
+  TestOf_eCompareString();
 	TestOf_AppendString();
 	TestOf_ReplaceCharactersInString();
 

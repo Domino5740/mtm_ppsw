@@ -193,7 +193,6 @@ void DecodeTokens(void) {
 		}
 		else {
 			asToken[ucTokenCounter].eType = STRING;
-			asToken[ucTokenCounter].uValue.pcString = asToken[ucTokenCounter].uValue.pcString;
 		}
 	}
 }
@@ -206,165 +205,94 @@ void DecodeMsg(char *pcString) {
 
 void TestOf_CopyString(void) {
 
-	char cSource[] = "Testowy string";
 	char cDestination[] = "asafsfafsfsfsffssfsa";
 
 	printf("CopyString\n\n ");
 	printf ("Test 1 - ");
-	// sprawdzenie czy kopiowanie stringów dzia³a w³aœciwie
-	CopyString(cSource, cDestination);
-	if (eCompareString(cSource, cDestination) == EQUAL) {
-		printf("OK\n\n\n");
-    }
-	else {
-		printf("Error\n\n\n");
-    }
+	//pusty string
+	CopyString("", cDestination);
+	if (eCompareString("", cDestination) == EQUAL) printf("OK\n\n\n"); else printf("Error\n\n\n");
 }
 
 void TestOf_eCompareString(void) {
 
-	char cEqualString1[] = "Testowy string";
-	char cEqualString2[] = "Testowy string";
-	char cNotEqualString[] = "Test";
-
 	printf("eCompareString\n\n ");
 	printf ("Test 2 - ");
-	// sprawdzenie czy porównanie takich samych stringów da wynik EQUAL
-	if (eCompareString(cEqualString1, cEqualString2) == EQUAL) {
-		printf("OK\n ");
-		}
-	else {
-		printf("Error\n ");
-	}
+	//takie same stringi
+	if (eCompareString("Testowy string", "Testowy string") == EQUAL) printf("OK\n "); else printf("Error\n ");
 	printf ("Test 3 - ");
-	//sprawdzenie czy dwa ró¿ne stringi bêd¹ uznane przez funkcje za ró¿ne
-	if(eCompareString(cEqualString1, cNotEqualString) == DIFFERENT) {
-		 printf("OK\n\n\n");
-	}
-	else {
-		printf("Error\n\n\n");
-	}
+	//różne stringi
+	if(eCompareString("Test1", "Test2") == DIFFERENT) printf("OK\n "); else printf("Error\n ");
+	printf ("Test 4 - ");
+	//puste stringi
+	if(eCompareString("", "") == EQUAL) printf("OK\n\n\n"); else printf("Error\n\n\n");
 }
 
 void TestOf_AppendString(void) {
 
-	char cSource[] = "Testowy string";
 	char cDestination[] = "tosty ";
-	char cTest[] = "tosty Testowy string";
 
 	printf("AppendString\n\n ");
 	printf ("Test 4 - ");
-	// sprawdzenie czy dodawanaie na koniec stringa dzia³a w³aœciwie
-	AppendString(cSource, cDestination);
-	if (eCompareString(cTest, cDestination) == EQUAL) {
-		printf("OK\n\n\n");
-	}
-	else {
-		printf("Error\n\n\n");
-    }
+	//pusty string
+	AppendString("", cDestination);
+	if (eCompareString("tosty ", cDestination) == EQUAL) printf("OK\n\n\n"); else printf("Error\n\n\n");
 }
 
 void TestOf_ReplaceCharactersInString(void) {
 
 	char cString[] = "Testowy string test";
-	char cOldChar = 'e';
-	char cNewChar = 'o';
-	char cNewString[] = "Tostowy string tost";
-
 	printf("ReplaceCharactersInString\n\n ");
 	printf ("Test 5 - ");
-	// sprawdzenie czy znaki s¹ poprawnie zamieniane
-	ReplaceCharactersInString(cString, cOldChar, cNewChar);
-	if (eCompareString(cString, cNewString) == EQUAL) {
-		printf("OK\n\n\n");
-	}
-	else {
-		printf("Error\n\n\n");
-	}
+	//test do tokenow (spacje na NULLe)
+	ReplaceCharactersInString(cString, ' ', '\0');
+	if (eCompareString(cString, "Testowy\0string\0test") == EQUAL) printf("OK\n\n\n"); else printf("Error\n\n\n");
 }
 
 void TestOf_UIntToHexStr(void) {
 
-	unsigned int uiTest = 21157;
-	char cTestHex[] = "0x52A5";
 	char cString[] = "sfsfsfsffs";
 
 	printf("UIntToHexStr\n\n ");
 	printf ("Test 6 - ");
-	// sprawdzenie czy liczba poprawnie zamieniana na zapis heksadecymalny
-	UIntToHexStr(uiTest, cString);
-	if (eCompareString(cString, cTestHex) == EQUAL) {
-		printf("OK\n\n\n");
-	 }
-	 else {
-		 printf("Error\n\n\n");
-	 }
+	//wartosci na krancach przedzialu dzialaniu funkcji
+	UIntToHexStr(43510, cString);
+	if (eCompareString(cString, "0xA9F6") == EQUAL) printf("OK\n\n\n"); else printf("Error\n\n\n");
 }
 
 void TestOf_eHexStringToUInt(void) {
 
 	unsigned int uiTest = 2153353;
-	char cTestHex[] = "0x52A5";
-	char cTestNullHex[] = "0x";
-	char cTestNo0xHex[] = "52A";
-	char cTestTooLongHex[] = "0x2542A6D27";
 	enum Result eResult;
 
 	printf("eHexStringToUInt\n\n ");
 	printf ("Test 7 - ");
-	// sprawdzenie czy liczba poprawnie zamieniana na zapis dziesiêtny unsigned int
-	eResult = eHexStringToUInt(cTestHex, &uiTest);
-	if (eResult == OK) {
-		printf("OK\n ");
-	}
-	else {
-		printf("Error\n ");
-	}
+	//zwykla liczba
+	eResult = eHexStringToUInt("0x52A5", &uiTest);
+	if (eResult == OK) printf("OK\n "); else printf("Error\n ");
 	printf ("Test 8 - ");
-	// sprawdzenie czy liczba pusta zostanie zamieniona
-	eResult = eHexStringToUInt(cTestNullHex, &uiTest);
-	if (eResult == ERROR) {
-		printf("OK\n ");
-	}
-	else {
-		printf("Error\n ");
-	}
+	//null string
+	eResult = eHexStringToUInt("0x", &uiTest);
+	if (eResult == ERROR) printf("OK\n "); else printf("Error\n ");
 	printf ("Test 9 - ");
-	// sprawdzenie czy liczba bez 0x zostanie zamieniona
-	eResult = eHexStringToUInt(cTestNo0xHex, &uiTest);
-	if (eResult == ERROR) {
-		printf("OK\n ");
-	}
-	else {
-		printf("Error\n ");
-	}
+	//string bez 0x
+	eResult = eHexStringToUInt("52A", &uiTest);
+	if (eResult == ERROR) printf("OK\n "); else printf("Error\n ");
 	printf ("Test 10 - ");
-	// sprawdzenie czy zbyt d³ugi string zostanie zamieniony
-	eResult = eHexStringToUInt(cTestTooLongHex, &uiTest);
-	if (eResult == ERROR) {
-		printf("OK\n\n\n");
-	}
-	else {
-		printf("Error\n\n\n");
-	}
+	//zbyt dlugi string
+	eResult = eHexStringToUInt("0x2524242ASDF", &uiTest);
+	if (eResult == ERROR) printf("OK\n\n\n"); else printf("Error\n\n\n");
 }
 
 void TestOf_AppendUIntToString(void) {
 
-	unsigned int uiTest = 21157;
 	char cString[] = "Test";
-	char cEndString[] = "Test0x52A5";
 
 	printf("AppendUIntToString\n\n ");
 	printf ("Test 11 - ");
-	// sprawdzenie czy liczba poprawnie dodawana na koniec stringa
-	AppendUIntToString(uiTest, cString);
-	if (eCompareString(cString, cEndString) == EQUAL) {
-		printf("OK\n\n\n");
-	}
-	else {
-		printf("Error\n\n\n");
-	}
+	//liczba na koniec stringa
+	AppendUIntToString(21157, cString);
+	if (eCompareString(cString, "Test0x52A5") == EQUAL) printf("OK\n\n\n"); else printf("Error\n\n\n");
 }
 
 void TestOf_ucFindTokensInString(void) {
@@ -372,45 +300,29 @@ void TestOf_ucFindTokensInString(void) {
 	unsigned char ucTokenNumber;
 	char cNullToken[] = "";
 	char cTokenMoreSpaces[] = "Test  test";
-	char cTokens[] = " elo reset pyyk";
+	char cTokens[] = " heh reset 0xA6";
+	char cTooMuchTokens = "raz dwa 3 4 5";
 
 	printf("ucFindTokensInString\n\n ");
 	printf ("Test 12 - ");
-	// sprawdzenie czy nie odnaleziono tokenów w przypadku pustego stringa
+	//pusty string
 	ucTokenNumber = ucFindTokensInString(cNullToken);
-	if (ucTokenNumber != 0) {
-		printf("Error\n ");
-	 }
-	else if(asToken[0].uValue.pcString != '\0') {
-		printf("Error\n ");
-	}
-	else {
-		printf("OK\n ");
-	}
+	if ((ucTokenNumber != 0) | (asToken[0].uValue.pcString != '\0')) printf("Error\n "); else printf("OK\n ");
 	printf ("Test 13 - ");
-	// sprawdzenie czy odnaleziono odpowiedni¹ liczbê tokenów(kilka spacji miêdzy dwoma tokenami)
+	//kilka spacji miedzy tokenami
 	ucTokenNumber = ucFindTokensInString(cTokenMoreSpaces);
-	if (ucTokenNumber != 2) {
-		printf("Error\n ");
-	}
-	else if (asToken[0].uValue.pcString != &cTokenMoreSpaces[0]) {
-        printf("Error\n ");
-	}
-	else {
-		printf("OK\n ");
-	}
-	printf ("Test 14 - ");
-	// sprawdzenie czy odnaleziono odpowiedni¹ liczbê tokenów(spacja na pocz¹tku, 3 tokeny)
+	if ((ucTokenNumber != 2) | (asToken[0].uValue.pcString != &cTokenMoreSpaces[0]) |
+        (asToken[1].uValue.pcString != &cTokenMoreSpaces[6])) printf("Error\n ");
+	else printf("OK\n ");
+    printf ("Test 14 - ");
+	//spacja na poczatku
 	ucTokenNumber = ucFindTokensInString(cTokens);
-	if(ucTokenNumber != 3) {
-		printf("Error\n\n\n");
-	 }
-	 else if (asToken[0].uValue.pcString != &cTokens[1]) {
-        printf("Error\n\n\n");
-	 }
-	 else {
-		 printf("OK\n\n\n");
-	 }
+	if((ucTokenNumber != 3) | (asToken[0].uValue.pcString != &cTokens[1]) | (asToken[1].uValue.pcString != &cTokens[5]) |
+    (asToken[2].uValue.pcString != &cTokens[11])) printf("Error\n\n\n"); else printf("OK\n\n\n");
+    //za duzo tokenow
+    ucTokenNumber = ucFindTokensInString(cTooMuchTokens);
+    if((ucTokenNumber != 4) | (asToken[0].uValue.pcString != &cTooMuchTokens[0]) | (asToken[1].uValue.pcString != &cTooMuchTokens[4]) |
+    (asToken[2].uValue.pcString != &cTokens[8])) printf("Error\n\n\n"); else printf("OK\n\n\n");
 }
 
 void TestOf_eStringToKeyword(void) {
