@@ -104,7 +104,7 @@ enum Result eHexStringToUInt(char pcStr[],unsigned int *puiValue) {
 	if((pcStr[0] != '0') | (pcStr[1] != 'x') | (pcStr[2] == '\0')) {
 		return ERROR;
 	}
-
+    *puiValue = 0;
 	for(ucCharCounter=2; pcStr[ucCharCounter] != '\0'; ucCharCounter++) {
 		if(ucCharCounter > 6) {
 			return ERROR;
@@ -143,14 +143,14 @@ unsigned char ucFindTokensInString(char *pcString) {
 
 		switch(eTokenState) {
 				case TOKEN:
-					if (cCurrentChar == ' ') {
-						eTokenState = DELIMITER;
-					}
-					else if (cCurrentChar == '\0') {
+					if (cCurrentChar == '\0') {
 						return ucTokenNr;
 					}
 					else if(ucTokenNr == MAX_TOKEN_NR) {
 						return ucTokenNr;
+					}
+					else if (cCurrentChar == ' ') {
+						eTokenState = DELIMITER;
 					}
 					break;
 				case DELIMITER:
@@ -233,7 +233,7 @@ void TestOf_AppendString(void) {
 	char cDestination[] = "tosty ";
 
 	printf("AppendString\n\n ");
-	printf ("Test 4 - ");
+	printf ("Test 5 - ");
 	//pusty string
 	AppendString("", cDestination);
 	if (eCompareString("tosty ", cDestination) == EQUAL) printf("OK\n\n\n"); else printf("Error\n\n\n");
@@ -243,7 +243,7 @@ void TestOf_ReplaceCharactersInString(void) {
 
 	char cString[] = "Testowy string test";
 	printf("ReplaceCharactersInString\n\n ");
-	printf ("Test 5 - ");
+	printf ("Test 6 - ");
 	//test do tokenow (spacje na NULLe)
 	ReplaceCharactersInString(cString, ' ', '\0');
 	if (eCompareString(cString, "Testowy\0string\0test") == EQUAL) printf("OK\n\n\n"); else printf("Error\n\n\n");
@@ -254,7 +254,7 @@ void TestOf_UIntToHexStr(void) {
 	char cString[] = "sfsfsfsffs";
 
 	printf("UIntToHexStr\n\n ");
-	printf ("Test 6 - ");
+	printf ("Test 7 - ");
 	//wartosci na krancach przedzialu dzialaniu funkcji
 	UIntToHexStr(43510, cString);
 	if (eCompareString(cString, "0xA9F6") == EQUAL) printf("OK\n\n\n"); else printf("Error\n\n\n");
@@ -266,19 +266,19 @@ void TestOf_eHexStringToUInt(void) {
 	enum Result eResult;
 
 	printf("eHexStringToUInt\n\n ");
-	printf ("Test 7 - ");
+	printf ("Test 8 - ");
 	//zwykla liczba
 	eResult = eHexStringToUInt("0x52A5", &uiTest);
 	if (eResult == OK) printf("OK\n "); else printf("Error\n ");
-	printf ("Test 8 - ");
+	printf ("Test 9 - ");
 	//null string
 	eResult = eHexStringToUInt("0x", &uiTest);
 	if (eResult == ERROR) printf("OK\n "); else printf("Error\n ");
-	printf ("Test 9 - ");
+	printf ("Test 10 - ");
 	//string bez 0x
 	eResult = eHexStringToUInt("52A", &uiTest);
 	if (eResult == ERROR) printf("OK\n "); else printf("Error\n ");
-	printf ("Test 10 - ");
+	printf ("Test 11 - ");
 	//zbyt dlugi string
 	eResult = eHexStringToUInt("0x2524242ASDF", &uiTest);
 	if (eResult == ERROR) printf("OK\n\n\n"); else printf("Error\n\n\n");
@@ -289,7 +289,7 @@ void TestOf_AppendUIntToString(void) {
 	char cString[] = "Test";
 
 	printf("AppendUIntToString\n\n ");
-	printf ("Test 11 - ");
+	printf ("Test 12 - ");
 	//liczba na koniec stringa
 	AppendUIntToString(21157, cString);
 	if (eCompareString(cString, "Test0x52A5") == EQUAL) printf("OK\n\n\n"); else printf("Error\n\n\n");
@@ -301,83 +301,58 @@ void TestOf_ucFindTokensInString(void) {
 	char cNullToken[] = "";
 	char cTokenMoreSpaces[] = "Test  test";
 	char cTokens[] = " heh reset 0xA6";
-	char cTooMuchTokens = "raz dwa 3 4 5";
+	char cTooMuchTokens[] = "raz dwa 3 4 5";
 
 	printf("ucFindTokensInString\n\n ");
-	printf ("Test 12 - ");
+	printf ("Test 13 - ");
 	//pusty string
 	ucTokenNumber = ucFindTokensInString(cNullToken);
 	if ((ucTokenNumber != 0) | (asToken[0].uValue.pcString != '\0')) printf("Error\n "); else printf("OK\n ");
-	printf ("Test 13 - ");
+	printf ("Test 14 - ");
 	//kilka spacji miedzy tokenami
 	ucTokenNumber = ucFindTokensInString(cTokenMoreSpaces);
 	if ((ucTokenNumber != 2) | (asToken[0].uValue.pcString != &cTokenMoreSpaces[0]) |
         (asToken[1].uValue.pcString != &cTokenMoreSpaces[6])) printf("Error\n ");
 	else printf("OK\n ");
-    printf ("Test 14 - ");
+    printf ("Test 15 - ");
 	//spacja na poczatku
 	ucTokenNumber = ucFindTokensInString(cTokens);
 	if((ucTokenNumber != 3) | (asToken[0].uValue.pcString != &cTokens[1]) | (asToken[1].uValue.pcString != &cTokens[5]) |
-    (asToken[2].uValue.pcString != &cTokens[11])) printf("Error\n\n\n"); else printf("OK\n\n\n");
+    (asToken[2].uValue.pcString != &cTokens[11])) printf("Error\n "); else printf("OK\n ");
+    printf ("Test 16 - ");
     //za duzo tokenow
     ucTokenNumber = ucFindTokensInString(cTooMuchTokens);
-    if((ucTokenNumber != 4) | (asToken[0].uValue.pcString != &cTooMuchTokens[0]) | (asToken[1].uValue.pcString != &cTooMuchTokens[4]) |
-    (asToken[2].uValue.pcString != &cTokens[8])) printf("Error\n\n\n"); else printf("OK\n\n\n");
+    if((ucTokenNumber != 4) | (asToken[0].uValue.pcString != &cTooMuchTokens[0]) |
+       (asToken[1].uValue.pcString != &cTooMuchTokens[4]) | (asToken[2].uValue.pcString != &cTooMuchTokens[8]) |
+        (asToken[3].uValue.pcString != &cTooMuchTokens[10])) printf("Error\n\n\n"); else printf("OK\n\n\n");
 }
 
 void TestOf_eStringToKeyword(void) {
 
 	enum KeywordCode eTokenCode;
-	char cResetToken[] = "reset";
-	char cLoadToken[] = "load";
-	char cNotKeywordToken[] = "roset";
-
 	printf("eStringToKeyword\n\n ");
-	printf ("Test 15 - ");
-	// sprawdzenie czy odczytano token reset
-	if(eStringToKeyword(cResetToken, &eTokenCode) == OK) {
-		printf("OK\n ");
-	}
-	else {
-		printf("ERROR\n ");
-	}
-	printf ("Test 16 - ");
-	// sprawdzenie czy odczytano load
-	if(eStringToKeyword(cLoadToken, &eTokenCode) == OK) {
-		printf("OK\n ");
-	}
-	else {
-		printf("ERROR\n ");
-	}
 	printf ("Test 17 - ");
-	// sprawdzenie czy nie odczytano b³êdnego keyworda
-	if(eStringToKeyword(cNotKeywordToken, &eTokenCode) == ERROR) {
-		printf("OK\n\n\n");
-	}
-	else {
-		printf("ERROR\n\n\n");
-	}
+	//token reset
+	if((eStringToKeyword("reset", &eTokenCode) == OK) & (eTokenCode == RST)) printf("OK\n "); else printf("ERROR\n ");
+	printf ("Test 18 - ");
+	//slowo nie bedace keywordem
+	if(eStringToKeyword("lada", &eTokenCode) == ERROR) printf("OK\n\n\n"); else printf("ERROR\n\n\n");
 }
 
 void TestOf_DecodeTokens() {
 
-	char cTokens[] = "0xA318 iledalbym store";
+	asToken[0].uValue.pcString = "0xA318";
+	asToken[1].uValue.pcString = "iledalbym";
+    asToken[2].uValue.pcString = "store";
 
 	printf("DecodeTokens\n\n ");
-	printf("Test 18 - ");
-	//sprawdzenie czy komunikat jest odkodowany poprawnie (liczba i jej wartosc, string wskaŸnik na niego,
-	//slowo kluczowe i jego kod)
-	ucFindTokensInString(cTokens);
-	ReplaceCharactersInString(cTokens,' ', '\0');
+	printf("Test 19 - ");
+	//number, string, keyword
 	DecodeTokens();
-	if ((asToken[0].eType == NUMBER) & (asToken[0].uValue.uiNumber == 4258308888) &
-        (asToken[1].eType == STRING) & (&cTokens[7] == asToken[1].uValue.pcString) &
-		(asToken[2].eType == KEYWORD) & (asToken[2].uValue.eKeyword == ST)) {
-		printf("OK\n\n\n");
-	}
-	else {
-		printf("ERROR\n\n\n");
-	}
+	if ((asToken[0].eType == NUMBER) & (asToken[0].uValue.uiNumber == 0xA318) &
+        (asToken[1].eType == STRING) & (&"iledalbym" == asToken[1].uValue.pcString) &
+		(asToken[2].eType == KEYWORD) & (asToken[2].uValue.eKeyword == ST)) printf("OK\n\n\n");
+    else printf("ERROR\n\n\n");
 }
 
 void TestOf_DecodeMsg() {
@@ -385,17 +360,13 @@ void TestOf_DecodeMsg() {
 	char pcTokens[]="0xA4B5 quattroADR load";
 
 	printf("DecodeMsg\n\n ");
-	printf("Test 19 - ");
-	//test analogiczny do poprzedniego
+	printf("Test 20 - ");
+	//number, string, keyword
 	DecodeMsg(pcTokens);
-	if ((asToken[0].eType==NUMBER) & (asToken[0].uValue.uiNumber == 4258309301) &
+	if ((asToken[0].eType==NUMBER) & (asToken[0].uValue.uiNumber == 0xA4B5) &
 		(asToken[1].eType==STRING) & (&pcTokens[7] == asToken[1].uValue.pcString) &
-		(asToken[2].eType==KEYWORD) & (asToken[2].uValue.eKeyword==LD)) {
-		printf("OK\n\n\n");
-	}
-	else {
-		printf("ERROR\n\n\n");
-	}
+		(asToken[2].eType==KEYWORD) & (asToken[2].uValue.eKeyword==LD))	printf("OK\n\n\n");
+    else printf("ERROR\n\n\n");
 }
 
  int main() {
