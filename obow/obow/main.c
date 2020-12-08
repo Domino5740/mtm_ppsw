@@ -365,7 +365,7 @@ void TestOf_DecodeMsg() {
 	DecodeMsg(pcTokens);
 	if ((asToken[0].eType==NUMBER) & (asToken[0].uValue.uiNumber == 0xA4B5) &
 		(asToken[1].eType==STRING) & (&pcTokens[7] == asToken[1].uValue.pcString) &
-		(asToken[2].eType==KEYWORD) & (asToken[2].uValue.eKeyword==LD))	printf("OK\n\n\n");
+		(asToken[2].eType==KEYWORD) & (asToken[2].uValue.eKeyword==LD)) printf("OK\n\n\n");
     else printf("ERROR\n\n\n");
 }
 

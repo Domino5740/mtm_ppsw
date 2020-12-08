@@ -3,31 +3,7 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
-C:\Users\Rejmi\Documents\STUDIA\2 semestr\Systemy wbudowane\mtm_ppsw\obow\prog_obow.uvproj
-Project File Date:  05/31/2019
+C:\Users\Rejmi\Documents\STUDIA\S2\Systemy wbudowane\mtm_ppsw\obow\prog_obow.uvproj
+Project File Date:  06/04/2019
 
 <h2>Output:</h2>
-Rebuild target 'Target 1'
-assembling Startup.s...
-compiling char.c...
-char.c(136): error:  #268: declaration may not appear after executable statement in block
-char.c(137): error:  #268: declaration may not appear after executable statement in block
-char.c(138): error:  #268: declaration may not appear after executable statement in block
-char.c(446): warning:  #550-D: variable "ucTokenNumber" was set but never used
-".\prog_obow.axf" - 3 Errors, 1 Warning(s).
-Target not created
-Rebuild target 'Target 1'
-assembling Startup.s...
-compiling char.c...
-char.c(136): error:  #268: declaration may not appear after executable statement in block
-char.c(137): error:  #268: declaration may not appear after executable statement in block
-char.c(138): error:  #268: declaration may not appear after executable statement in block
-".\prog_obow.axf" - 3 Errors, 0 Warning(s).
-Target not created
-Rebuild target 'Target 1'
-assembling Startup.s...
-compiling char.c...
-linking...
-Program Size: Code=8308 RO-data=44 RW-data=64 ZI-data=1544  
-FromELF: creating hex file...
-".\prog_obow.axf" - 0 Errors, 0 Warning(s).

@@ -40,10 +40,13 @@ void CopyString(char pcTokens[], char pcDestination[]) {
 
 	unsigned char ucCharCounter;
 
-	for(ucCharCounter = 0; pcTokens[ucCharCounter]!='\0'; ucCharCounter++) {
+	for(ucCharCounter = 0; pcTokens[ucCharCounter] != '\0'; ucCharCounter++) {
 		pcDestination[ucCharCounter] = pcTokens[ucCharCounter];
 	}
-	pcDestination[ucCharCounter]='\0';
+	while (pcDestination[ucCharCounter] != '\0') {
+		pcDestination[ucCharCounter] = '\0';
+		ucCharCounter++;
+	}
 }
 
 void AppendString(char pcTokensStr[], char pcDestinationStr[]) {
@@ -487,7 +490,7 @@ void TestOf_DecodeMsg() {
 	printf("TESTY FUNKCJI - LANCUCHY ZNAKOWE - OPERACJE PROSTE\n\n\n");
 
 	TestOf_CopyString();
-  TestOf_eCompareString();
+  	TestOf_eCompareString();
 	TestOf_AppendString();
 	TestOf_ReplaceCharactersInString();
 
