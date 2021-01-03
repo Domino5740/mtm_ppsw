@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\ORLOWSKI.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\ORLOWSKI.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Tue Dec 08 09:49:51 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Sun Jan 03 15:19:59 2021
 <BR><P>
 <H3>Maximum Stack Usage =         72 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -181,7 +181,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[12]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__user_setup_stackheap
 </UL>
 
-<P><STRONG><a name="[b]"></a>main</STRONG> (ARM, 156 bytes, Stack size 56 bytes, main.o(.text))
+<P><STRONG><a name="[b]"></a>main</STRONG> (ARM, 96 bytes, Stack size 56 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72 + Unknown Stack Size
 <LI>Call Chain = main &rArr; AppendString
 </UL>
@@ -199,9 +199,9 @@ Global Symbols
 
 <P><STRONG><a name="[4d]"></a>eReceiver_GetStatus</STRONG> (ARM, 12 bytes, Stack size 0 bytes, uart.o(.text), UNUSED)
 
-<P><STRONG><a name="[4e]"></a>Receiver_GetStringCopy</STRONG> (ARM, 96 bytes, Stack size 0 bytes, uart.o(.text), UNUSED)
+<P><STRONG><a name="[4e]"></a>Receiver_GetStringCopy</STRONG> (ARM, 100 bytes, Stack size 0 bytes, uart.o(.text), UNUSED)
 
-<P><STRONG><a name="[23]"></a>Transmitter_GetCharacterFromBuffer</STRONG> (ARM, 112 bytes, Stack size 0 bytes, uart.o(.text))
+<P><STRONG><a name="[23]"></a>Transmitter_GetCharacterFromBuffer</STRONG> (ARM, 116 bytes, Stack size 0 bytes, uart.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART0_Interrupt
 </UL>
 
@@ -217,7 +217,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART0_Interrupt
 </UL>
 
-<P><STRONG><a name="[20]"></a>UART0_Interrupt</STRONG> (ARM, 128 bytes, Stack size 32 bytes, uart.o(.text))
+<P><STRONG><a name="[20]"></a>UART0_Interrupt</STRONG> (ARM, 108 bytes, Stack size 32 bytes, uart.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = UART0_Interrupt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Transmitter_GetStatus
